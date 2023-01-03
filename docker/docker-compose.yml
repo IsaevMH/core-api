@@ -10,12 +10,11 @@ services:
     ports:
       - "5432:5432"
   core-api:
-    image: app
+    image: adoptopenjdk:11.0.3_7-jdk-hotspot
     container_name: core-api
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: ./Dockerfile
     ports:
-      - "8080:8080"
-    depends_on:
-    - postgres
+      - "80:80"
+    depends_on: postgres

@@ -1,10 +1,8 @@
-package ru.sber.coreapi;
+package ru.sber.logapp;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-@EnableJpaRepositories(basePackages = {"ru.sber.coreapi.repository"})
 @SpringBootApplication
 public class LogAppApplication {
 

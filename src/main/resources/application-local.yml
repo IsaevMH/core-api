@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 80
   servlet:
     context-path: /core-api
     application-display-name: CoreApi
@@ -20,15 +20,16 @@ spring:
   main:
     allow-bean-definition-overriding: true
   datasource:
+    datasource:
+      url: jdbc:postgresql://localhost:5432/app
+      username: postgres
+      password: postgres
+      driver-class-name: org.postgresql.Driver
     hikari:
       connection-init-sql: CREATE SCHEMA IF NOT EXISTS "core_api";
       connection-timeout: 30000
       maximum-pool-size: 5
       schema: core_api
-    url: jdbc:postgresql://localhost:5432/app
-    username: postgres
-    password: postgres
-    driver-class-name: org.postgresql.Driver
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQL10Dialect
     hibernate:
