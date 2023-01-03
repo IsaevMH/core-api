@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
+
+    <changeSet id="1" author="Maxim_Isaev">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="logs"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="logs" remarks="Таблица логов">
+            <column name="id" type="bigserial" remarks="Уникальный идентификатор лога">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="logs_pk"/>
+            </column>
+
+            <column name="message" type="varchar(255)" remarks="Сообщение лога">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <comment>issue_#2 : Реализация слоя db</comment>
+    </changeSet>
+</databaseChangeLog>
