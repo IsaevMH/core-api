@@ -38,22 +38,4 @@ public class Log {
      */
     @Column(nullable = false)
     String message;
-
-    /**
-     * Тип лога
-     */
-    @Column(nullable = false, length = 30)
-    String type;
-
-    /**
-     * Уровень лога
-     */
-    @Column(nullable = false, length = 5)
-    String level;
-
-    /**
-     * Время исполнения лога
-     */
-    @Column(nullable = false)
-    Timestamp time;
 }
