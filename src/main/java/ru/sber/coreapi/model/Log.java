@@ -7,6 +7,7 @@ import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 import static javax.persistence.GenerationType.IDENTITY;
@@ -23,7 +24,9 @@ import static javax.persistence.GenerationType.IDENTITY;
 @NoArgsConstructor
 @Table(name = "logs")
 @Accessors(chain = true)
-public class Log {
+public class Log implements Serializable {
+
+    private static final long serialVersionUID = -5957113287409375392L;
 
     /**
      * Уникальный идентификатор лога
