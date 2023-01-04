@@ -1,64 +1,16 @@
 server:
   port: 8080
-  servlet:
-    context-path: /core-api
-    application-display-name: CoreApi
-    session:
-      cookie:
-        http-only: true
-  tomcat:
-    max-connections: 100
-    accept-count: 10
-    connection-timeout: 30000
-
 spring:
-  profiles:
-    group:
-      local: local, swagger
-  application:
-    name: core-api
-  main:
-    allow-bean-definition-overriding: true
   datasource:
-    hikari:
-      connection-init-sql: CREATE SCHEMA IF NOT EXISTS "core_api";
-      connection-timeout: 30000
-      maximum-pool-size: 5
-      schema: core_api
     url: jdbc:postgresql://localhost:5432/app
     username: postgres
     password: postgres
     driver-class-name: org.postgresql.Driver
-  jpa:
-    database-platform: org.hibernate.dialect.PostgreSQL10Dialect
-    hibernate:
-      ddl-auto: none
-    show-sql: false
-  liquibase:
-    enabled: true
-    change-log: classpath:db/changelog/db.changelog-master.xml
-    default-schema: core_api
-    liquibase-schema: core_api
+  config:
+    use-legacy-processing: false
 
 logging:
   level:
     ROOT: INFO
     ru.sber: DEBUG
     org.springframework: INFO
-
-management:
-  endpoints:
-    web:
-      exposure:
-        include: "*"
-  metrics:
-    export:
-      atlas:
-        enabled: true
-  health:
-    probes:
-      enabled: true
-    livenessstate:
-      enabled: true
-    readinessstate:
-      enabled: true
