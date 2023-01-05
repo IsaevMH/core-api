@@ -22,7 +22,7 @@ public interface LogResource {
 
     @Operation(description = "Новая информация о логе.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Лог успешно добавлен."),
+            @ApiResponse(responseCode = "200", description = "Лог успешно добавлен."),
     })
     @PostMapping
     ResponseEntity<LogDto> add(@RequestBody LogDto logDto);

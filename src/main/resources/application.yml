@@ -17,7 +17,7 @@ spring:
       matching-strategy: ant_path_matcher
   profiles:
     group:
-      local-profile: local, swagger
+      local: local, swagger
   application:
     name: core-api
   datasource:
@@ -44,17 +44,25 @@ logging:
     org.springframework: INFO
 
 management:
+  endpoint:
+    health:
+      enabled: true
+      show-details: always
   endpoints:
     web:
       exposure:
-        include: "*"
+        include: "health"
+  metrics:
+    export:
+      atlas:
+        enabled: true
   health:
+    probes:
+      enabled: true
     livenessstate:
       enabled: true
     readinessstate:
       enabled: true
 
 springdoc:
-  swagger-ui:
-    url: /swagger-ui.html
   show-actuator: true
