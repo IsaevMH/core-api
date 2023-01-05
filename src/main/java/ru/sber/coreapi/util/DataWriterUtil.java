@@ -2,7 +2,9 @@ package ru.sber.coreapi.util;
 
 import lombok.extern.slf4j.Slf4j;
 
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 
 /**
  * DataWriterUtil.
@@ -14,9 +16,9 @@ import java.io.*;
 public class DataWriterUtil {
 
     /**
-     * Константа, содержащая наименование файла.
+     * Константа, содержащая путь до файла с логами.
      */
-    public final static String FILE_NAME = "log.txt";
+    public final static String FILE_NAME = "/usr/app/logs/log.txt";
 
     public static void save(String data) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_NAME, true))) {

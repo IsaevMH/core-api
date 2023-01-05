@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'ru.sber'
-version = '0.0.1-SNAPSHOT'
+version = '0.0.1'
 sourceCompatibility = '11'
 
 configurations {
@@ -24,8 +24,8 @@ dependencies {
     implementation 'org.liquibase:liquibase-core'
     implementation 'org.springdoc:springdoc-openapi-ui:1.6.14'
     implementation 'org.mapstruct:mapstruct:1.5.3.Final'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
 
-    compileOnly 'org.springframework.boot:spring-boot-starter-actuator'
     compileOnly 'org.projectlombok:lombok'
 
     runtimeOnly 'org.postgresql:postgresql'
