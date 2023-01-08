@@ -28,14 +28,13 @@ public class LogServiceImpl implements LogService {
     private final LogMapper logMapper;
 
     @Override
-    public LogDto add(LogDto logDto) {
+    public void add(LogDto logDto) {
         log.info("Выполняется сохранение модели представления {}", logDto);
-        return Optional.of(logDto)
+        Optional.of(logDto)
                 .filter(dto -> isNotEmpty(dto.getMessage()))
                 .map(logMapper::logDtoToLog)
                 .map(logRepository::save)
                 .map(this::saveToFile)
-                .map(log -> logDto)
                 .orElseThrow(() -> new IllegalArgumentException("Поле message не может быть пустым/null"));
     }
 

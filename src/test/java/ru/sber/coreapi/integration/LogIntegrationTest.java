@@ -47,9 +47,6 @@ class LogIntegrationTest extends AbstractIntegrationTest {
                         .contentType(APPLICATION_JSON)
                         .content(contentToString(logDto)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.message", is(logDto.getMessage())))
-                .andExpect(jsonPath("$.type", is(logDto.getType())))
-                .andExpect(jsonPath("$.level", is(logDto.getLevel())))
                 .andReturn().getResponse();
     }
 

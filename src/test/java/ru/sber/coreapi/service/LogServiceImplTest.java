@@ -1,5 +1,6 @@
 package ru.sber.coreapi.service;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.doReturn;
@@ -53,14 +54,10 @@ class LogServiceImplTest {
         var log = new Log()
                 .setMessage(logDto.getMessage());
 
-        var expected = "test";
-
         doReturn(log).when(logMapper).logDtoToLog(logDto);
         doReturn(log).when(logRepository).save(log);
 
-        var actual = subj.add(logDto);
-
-        assertEquals(expected, actual.getMessage());
+        assertDoesNotThrow(() -> subj.add(logDto));
 
         inOrder.verify(logMapper, times(1)).logDtoToLog(logDto);
         inOrder.verify(logRepository, times(1)).save(log);
