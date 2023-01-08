@@ -1,11 +1,8 @@
 package ru.sber.coreapi.service;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.inOrder;
-import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -20,6 +17,10 @@ import ru.sber.coreapi.config.LogMapper;
 import ru.sber.coreapi.dto.LogDto;
 import ru.sber.coreapi.model.Log;
 import ru.sber.coreapi.repository.LogRepository;
+import ru.sber.coreapi.util.DataWriterUtil;
+
+import java.sql.Timestamp;
+import java.time.Instant;
 
 /**
  * LogServiceImplTest.
@@ -40,46 +41,38 @@ class LogServiceImplTest {
     @Mock
     LogRepository logRepository;
 
+    @Mock
+    DataWriterUtil dataWriterUtil;
+
     InOrder inOrder;
 
     @BeforeEach
     void setUp() {
-        inOrder = inOrder(subj, logRepository, logMapper);
+        inOrder = inOrder(subj, logRepository, logMapper, dataWriterUtil);
     }
 
     @Test
     void addSuccess() {
         var logDto = new LogDto()
-                .setMessage("test");
+                .setMessage("test")
+                .setLevel("debug")
+                .setType("system")
+                .setTime(Timestamp.from(Instant.now()));
         var log = new Log()
-                .setMessage(logDto.getMessage());
+                .setMessage(logDto.getMessage())
+                .setLevel(logDto.getLevel())
+                .setType(logDto.getType())
+                .setTime(logDto.getTime());
 
         doReturn(log).when(logMapper).logDtoToLog(logDto);
         doReturn(log).when(logRepository).save(log);
+        doReturn(log).when(dataWriterUtil).write(log);
 
         assertDoesNotThrow(() -> subj.add(logDto));
 
         inOrder.verify(logMapper, times(1)).logDtoToLog(logDto);
         inOrder.verify(logRepository, times(1)).save(log);
-        inOrder.verifyNoMoreInteractions();
-    }
-
-    @Test
-    void addEmptyLogMessage() {
-        var logDto = new LogDto()
-                .setMessage("");
-        var log = new Log()
-                .setMessage(logDto.getMessage());
-
-        var expected = new IllegalArgumentException("Поле message не может быть пустым/null");
-
-        var actual = assertThrows(IllegalArgumentException.class, () -> subj.add(logDto));
-
-        assertEquals(expected.getLocalizedMessage(), actual.getLocalizedMessage());
-
-        inOrder.verify(subj, times(1)).add(logDto);
-        inOrder.verify(logMapper, never()).logDtoToLog(logDto);
-        inOrder.verify(logRepository, never()).save(log);
+        inOrder.verify(dataWriterUtil, times(1)).write(log);
         inOrder.verifyNoMoreInteractions();
     }
 }

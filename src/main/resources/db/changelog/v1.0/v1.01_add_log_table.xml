@@ -20,6 +20,18 @@
             <column name="message" type="varchar(255)" remarks="Сообщение лога">
                 <constraints nullable="false"/>
             </column>
+
+            <column name="type" type="varchar(30)" remarks="Тип лога">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="level" type="varchar(5)" remarks="Уровень лога">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="time" type="timestamp" remarks="Время исполнения лога">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
         <comment>issue_#2 : Реализация слоя db</comment>
     </changeSet>

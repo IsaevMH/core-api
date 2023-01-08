@@ -1,20 +1,22 @@
 package ru.sber.coreapi.exception;
 
 import static java.util.UUID.randomUUID;
+import static java.util.stream.Collectors.toList;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import ru.sber.coreapi.dto.ErrorResponse;
+import ru.sber.coreapi.dto.FieldValidationErrorDto;
+import ru.sber.coreapi.dto.ResponseFieldValidationErrorDto;
 
 /**
  * GlobalExceptionHandler.
- * Обрабатывает исключения и проводит к единому формату ответа.
+ * Обрабатывает исключения в едином формате.
  *
  * @author Maxim_Isaev.
  */
@@ -26,15 +28,16 @@ public class GlobalExceptionHandler {
     private String systemName;
 
     @ResponseStatus(BAD_REQUEST)
-    @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<ErrorResponse> illegalArgumentException(IllegalArgumentException exception) {
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ResponseFieldValidationErrorDto> illegalArgumentException(MethodArgumentNotValidException exception) {
         log.error(exception.getLocalizedMessage(), exception);
-        var error = new ErrorResponse(
-                randomUUID(),
-                "illegalArgumentException",
-                exception.getLocalizedMessage(),
-                systemName
-        );
-        return new ResponseEntity<>(error, new HttpHeaders(), BAD_REQUEST);
+        var errors = exception.getFieldErrors().stream()
+                .map(error -> new FieldValidationErrorDto(error.getField(), error.getDefaultMessage()))
+                .collect(toList());
+        var response = new ResponseFieldValidationErrorDto(randomUUID(), "MethodArgumentNotValidException", systemName, errors);
+
+        return ResponseEntity
+                .status(BAD_REQUEST)
+                .body(response);
     }
 }
