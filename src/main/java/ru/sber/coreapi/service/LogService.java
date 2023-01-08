@@ -14,7 +14,6 @@ public interface LogService {
      * Добавление нового лога.
      *
      * @param logDto представление лога.
-     * @return {@link LogDto}.
      */
-    LogDto add(LogDto logDto);
+    void add(LogDto logDto);
 }
