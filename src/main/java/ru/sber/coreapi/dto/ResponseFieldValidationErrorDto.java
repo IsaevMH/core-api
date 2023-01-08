@@ -10,11 +10,12 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
+import java.util.List;
 import java.util.UUID;
 
 /**
- * ErrorResponse.
- * Модель представления исключительной ситуаци возникающей при некорректном запросе.
+ * ResponseFieldValidationErrorDto.
+ * Модель представления списка ошибок валидации полей
  *
  * @author Maxim_Isaev.
  */
@@ -24,8 +25,8 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Accessors(chain = true)
-@Schema(description = "Модель ошибки")
-public class ErrorResponse {
+@Schema(description = "Модель списка ошибок валидации полей")
+public class ResponseFieldValidationErrorDto {
 
     @Schema(description = "Уникальный идентификатор ошибки", example = "1L", requiredMode = REQUIRED)
     private UUID id;
@@ -33,9 +34,9 @@ public class ErrorResponse {
     @Schema(description = "Код ошибки", example = "IllegalArgumentException", requiredMode = REQUIRED)
     private String code;
 
-    @Schema(description = "Сообщение ошибки", example = "DTO не соответствует требованиям", requiredMode = REQUIRED)
-    private String message;
-
     @Schema(description = "Наименование системы", example = "core-api", requiredMode = REQUIRED)
     private String systemName;
+
+    @Schema(description = "Список ошибок валидации полей", requiredMode = REQUIRED)
+    private List<FieldValidationErrorDto> fieldValidationErrorDtos;
 }

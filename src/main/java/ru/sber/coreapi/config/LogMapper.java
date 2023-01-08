@@ -18,5 +18,8 @@ public interface LogMapper {
     LogMapper INSTANCE = Mappers.getMapper(LogMapper.class);
 
     @Mapping(source = "message", target = "message")
+    @Mapping(source = "type", target = "type")
+    @Mapping(source = "level", target = "level")
+    @Mapping(source = "time", target = "time")
     Log logDtoToLog(LogDto logDto);
 }

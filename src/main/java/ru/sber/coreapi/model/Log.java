@@ -13,6 +13,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 /**
  * Log.
@@ -43,4 +44,22 @@ public class Log implements Serializable {
      */
     @Column(nullable = false)
     String message;
+
+    /**
+     * Тип лога
+     */
+    @Column(nullable = false, length = 30)
+    String type;
+
+    /**
+     * Уровень лога
+     */
+    @Column(nullable = false, length = 5)
+    String level;
+
+    /**
+     * Время исполнения лога
+     */
+    @Column(nullable = false)
+    Timestamp time;
 }

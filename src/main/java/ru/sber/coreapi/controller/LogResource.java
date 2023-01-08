@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ru.sber.coreapi.dto.LogDto;
 
+import javax.validation.Valid;
+
 /**
  * LogResource.
  * API для работы с логами.
@@ -24,5 +26,5 @@ public interface LogResource {
             @ApiResponse(responseCode = "200", description = "Лог успешно добавлен."),
     })
     @PostMapping
-    void add(@RequestBody LogDto logDto);
+    void add(@Valid @RequestBody LogDto logDto);
 }
