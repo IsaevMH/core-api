@@ -1,2 +1,3 @@
 test file
 and new text
+add new one
